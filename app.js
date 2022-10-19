@@ -81,11 +81,18 @@ app.delete('/delete-employee/:id', (req, res) => {
 })
 
 //mysql connection
+// const connection = mysql.createConnection({
+//     host: process.env.HOST,
+//     user: process.env.USER,
+//     password: process.env.PASSWORD,
+//     database: process.env.DATABASE
+// });
+
 const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: 'us-cdbr-east-06.cleardb.net',
+    user: 'b89783eec344f2',
+    password: 'c17779a7',
+    database: 'heroku_c9738e768e65a0a'
 });
 
 //connect mysql
