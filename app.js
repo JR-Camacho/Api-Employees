@@ -2,8 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { get } = require('mongoose');
-if(process.env.NODE_ENV != 'production') require('dotenv').config();
+// if(process.env.NODE_ENV != 'production') require('dotenv').config();
+require('dotenv').config();
 
 const PORT = process.env.PORT || 3050;
 
