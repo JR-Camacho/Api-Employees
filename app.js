@@ -21,7 +21,7 @@ const firter = (param, res) => {
 }
 
 // Get all employes
-app.get('/employees', (req, res) => {
+app.get('/employees', cors(), (req, res) => {
     let param = req.headers.look;
     const query = 'select * from employees';
 
@@ -34,7 +34,7 @@ app.get('/employees', (req, res) => {
 })
 
 //Get a employee by id
-app.get('/employees/:id', (req, res) => {
+app.get('/employees/:id',cors(), (req, res) => {
     let id = req.params.id;
     let query = `select * from employees where id = ${id}`;
 
@@ -44,7 +44,7 @@ app.get('/employees/:id', (req, res) => {
 })
 
 //New employee
-app.post('/new-employee', (req, res) => {
+app.post('/new-employee',cors(), (req, res) => {
     const query = 'insert into employees set ?'
     let newEmployee = {
         name: req.body.name,
@@ -58,7 +58,7 @@ app.post('/new-employee', (req, res) => {
 })
 
 //Update a employee
-app.put('/update-employee/:id', (req, res) => {
+app.put('/update-employee/:id',cors(), (req, res) => {
     let id = req.params.id;
     let {name, surnames, identification_card} = req.body;
 
@@ -70,7 +70,7 @@ app.put('/update-employee/:id', (req, res) => {
 })
 
 //Delete a employee
-app.delete('/delete-employee/:id', (req, res) => {
+app.delete('/delete-employee/:id',cors(), (req, res) => {
     let id = req.params.id;
     let query = `delete from employees where id = ${id}`;
 
