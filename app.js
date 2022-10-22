@@ -87,20 +87,6 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME
 });
 
-// const connection = mysql.createConnection({
-//     host: 'us-cdbr-east-06.cleardb.net',
-//     user: 'b89783eec344f2',
-//     password: 'c17779a7',
-//     database: 'heroku_c9738e768e65a0a'
-// });
-
-// const connection = mysql.createConnection({
-//     host: 'us-cdbr-east-06.cleardb.net',
-//     user: 'b952d6bbb70cbc',
-//     password: '7afcf198',
-//     database: 'heroku_d45aee52121b4a2'
-// });
-
 //connect mysql
 connection.connect(err => {
     if(err) throw('Connection error', err)
