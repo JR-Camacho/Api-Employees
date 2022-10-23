@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3050;
 
 const app = express();
 
-let whiteList = ['http://localhost:4000', 'https://api-employees-register.herokuapp.com'];
+let whiteList = ['http://localhost:4200', 'https://employeesregister.netlify.app'];
 
 let corsOptions = {
     origin : (origin, callback) => {
