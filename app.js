@@ -8,6 +8,15 @@ const PORT = process.env.PORT || 3050;
 
 const app = express();
 
+let whiteList = ['http://localhost:4000', 'https://api-employees-register.herokuapp.com'];
+
+let corsOptions = {
+    origin : (origin, callback) => {
+        if(whiteList.indexOf(origin) != -1) callback(null, true);
+        else callback(new Error('Not allowed by CORS'));
+    }
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
@@ -21,7 +30,7 @@ const firter = (param, res) => {
 }
 
 // Get all employes
-app.get('/employees', cors(), (req, res) => {
+app.get('/employees', cors(corsOptions), (req, res) => {
     let param = req.headers.look;
     const query = 'select * from employees';
 
@@ -34,7 +43,7 @@ app.get('/employees', cors(), (req, res) => {
 })
 
 //Get a employee by id
-app.get('/employees/:id',cors(), (req, res) => {
+app.get('/employees/:id',cors(corsOptions), (req, res) => {
     let id = req.params.id;
     let query = `select * from employees where id = ${id}`;
 
@@ -44,7 +53,7 @@ app.get('/employees/:id',cors(), (req, res) => {
 })
 
 //New employee
-app.post('/new-employee',cors(), (req, res) => {
+app.post('/new-employee',cors(corsOptions), (req, res) => {
     const query = 'insert into employees set ?'
     let newEmployee = {
         name: req.body.name,
@@ -58,7 +67,7 @@ app.post('/new-employee',cors(), (req, res) => {
 })
 
 //Update a employee
-app.put('/update-employee/:id',cors(), (req, res) => {
+app.put('/update-employee/:id',cors(corsOptions), (req, res) => {
     let id = req.params.id;
     let {name, surnames, identification_card} = req.body;
 
@@ -70,7 +79,7 @@ app.put('/update-employee/:id',cors(), (req, res) => {
 })
 
 //Delete a employee
-app.delete('/delete-employee/:id',cors(), (req, res) => {
+app.delete('/delete-employee/:id',cors(corsOptions), (req, res) => {
     let id = req.params.id;
     let query = `delete from employees where id = ${id}`;
 
