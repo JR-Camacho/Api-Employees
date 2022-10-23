@@ -8,18 +8,27 @@ const PORT = process.env.PORT || 3050;
 
 const app = express();
 
-let whiteList = ['http://localhost:4200', 'https://employeesregister.netlify.app'];
+// let whiteList = ['http://localhost:4200', 'https://employeesregister.netlify.app'];
 
-let corsOptions = {
-    origin : (origin, callback) => {
-        if(whiteList.indexOf(origin) != -1) callback(null, true);
-        else callback(new Error('Not allowed by CORS'));
-    }
-}
+// let corsOptions = {
+//     origin : (origin, callback) => {
+//         if(whiteList.indexOf(origin) != -1) callback(null, true);
+//         else callback(new Error('Not allowed by CORS'));
+//     }
+// }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
+
+app.use((req,res,next)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method,');
+    res.header('content-type: application/json; charset=utf-8')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next()
+})
 
 const firter = (param, res) => {
     let firter = `select * from employees where name like '%${param}%' or surnames like '%${param}%' or identification_card like '%${param}%'`;
@@ -30,7 +39,7 @@ const firter = (param, res) => {
 }
 
 // Get all employes
-app.get('/employees', cors(corsOptions), (req, res) => {
+app.get('/employees', (req, res) => {
     let param = req.headers.look;
     const query = 'select * from employees';
 
@@ -43,7 +52,7 @@ app.get('/employees', cors(corsOptions), (req, res) => {
 })
 
 //Get a employee by id
-app.get('/employees/:id',cors(corsOptions), (req, res) => {
+app.get('/employees/:id', (req, res) => {
     let id = req.params.id;
     let query = `select * from employees where id = ${id}`;
 
@@ -53,7 +62,7 @@ app.get('/employees/:id',cors(corsOptions), (req, res) => {
 })
 
 //New employee
-app.post('/new-employee',cors(corsOptions), (req, res) => {
+app.post('/new-employee', (req, res) => {
     const query = 'insert into employees set ?'
     let newEmployee = {
         name: req.body.name,
@@ -67,7 +76,7 @@ app.post('/new-employee',cors(corsOptions), (req, res) => {
 })
 
 //Update a employee
-app.put('/update-employee/:id',cors(corsOptions), (req, res) => {
+app.put('/update-employee/:id', (req, res) => {
     let id = req.params.id;
     let {name, surnames, identification_card} = req.body;
 
@@ -79,7 +88,7 @@ app.put('/update-employee/:id',cors(corsOptions), (req, res) => {
 })
 
 //Delete a employee
-app.delete('/delete-employee/:id',cors(corsOptions), (req, res) => {
+app.delete('/delete-employee/:id', (req, res) => {
     let id = req.params.id;
     let query = `delete from employees where id = ${id}`;
 
