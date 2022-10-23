@@ -10,21 +10,13 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(cors());
 
-app.use((req,res,next)=>{
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method,');
-    res.header('content-type: application/json; charset=utf-8')
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next()
-})
+const filter = (param, res) => {
+    let filter = `select * from employees where name like '%${param}%' or surnames like '%${param}%' or identification_card like '%${param}%'`;
 
-const firter = (param, res) => {
-    let firter = `select * from employees where name like '%${param}%' or surnames like '%${param}%' or identification_card like '%${param}%'`;
-
-    connection.query(firter, (err, results)=> {
+    connection.query(filter, (err, results)=> {
         err ? res.json({message: 'Query error', error: err}) : res.json(results);
     })
 }
@@ -34,7 +26,7 @@ app.get('/employees', (req, res) => {
     let param = req.headers.look;
     const query = 'select * from employees';
 
-    if(param != '' && param != undefined) firter(param, res)
+    if(param != '' && param != undefined) filter(param, res)
     else {
         connection.query(query, (err, results)=> {
             err ? res.json({message: 'Query error', error: err}) : res.json(results);
