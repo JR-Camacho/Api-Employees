@@ -8,15 +8,6 @@ const PORT = process.env.PORT || 3050;
 
 const app = express();
 
-// let whiteList = ['http://localhost:4200', 'https://employeesregister.netlify.app'];
-
-// let corsOptions = {
-//     origin : (origin, callback) => {
-//         if(whiteList.indexOf(origin) != -1) callback(null, true);
-//         else callback(new Error('Not allowed by CORS'));
-//     }
-// }
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
